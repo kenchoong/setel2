@@ -27,6 +27,10 @@ export const OrderSchema = new mongoose.Schema({
     type: String,
     required: [true, 'OrderStatus can not be empty'],
   },
+  paymentStatus: {
+    type: String,
+    default: 'Processing',
+  },
   createdAt: {
     type: String,
     required: [true, 'Date can not be empty'],

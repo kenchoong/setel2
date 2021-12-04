@@ -8,11 +8,9 @@ import { IOrder } from './type/IOrder';
 import { ICheckOrderResult } from './type/ICheckOrderResult';
 import { ICreateOrderResponse } from './responseType/ICreateOrderResponse';
 import { ICheckOrderResponse } from './responseType/ICheckOrderResponse';
-import { IUpdateOrderResponse } from './responseType/IUpdateOrderResponse';
 import { IGetOrderResponse } from './responseType/IGetOrderResponse';
 import { IListOrderResponse } from './responseType/IListOrderResponse';
 import { IReceivePaymentStatusParams } from './type/IReceivePaymentStatusParams';
-//import { IUpdateOrderResponse } from './responseType/IUpdateOrderResponse';
 
 @Controller()
 export class OrderController {
