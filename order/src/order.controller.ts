@@ -33,11 +33,17 @@ export class OrderController {
         };
       } catch (error) {
         result = {
-          status: 500,
+          status: 400,
           message: 'Create order error',
           order: null,
         };
       }
+    } else {
+      result = {
+        status: 500,
+        message: 'No data comes in',
+        order: null,
+      };
     }
 
     return result;
@@ -48,14 +54,22 @@ export class OrderController {
     // here check status
     let result: ICheckOrderResponse;
     if (data) {
-      const res: ICheckOrderResult = await this.orderService.checkOrderStatus(
-        data,
-      );
-      result = {
-        status: 200,
-        message: 'Check status success',
-        orderStatus: res.orderStatus,
-      };
+      try {
+        const res: ICheckOrderResult = await this.orderService.checkOrderStatus(
+          data,
+        );
+        result = {
+          status: 200,
+          message: 'Check status success',
+          orderStatus: res.orderStatus,
+        };
+      } catch (err) {
+        result = {
+          status: 400,
+          message: 'Error checking status',
+          orderStatus: null,
+        };
+      }
     } else {
       result = {
         status: 500,
@@ -72,15 +86,23 @@ export class OrderController {
     // here get order stuff
     let result: IListOrderResponse;
     if (userId) {
-      const res: IOrder[] = await this.orderService.listOrder(userId);
+      try {
+        const res: IOrder[] = await this.orderService.listOrder(userId);
 
-      result = {
-        status: 200,
-        message: 'Get order success',
-        orders: res,
-      };
+        result = {
+          status: 200,
+          message: 'Get order success',
+          orders: res,
+        };
+      } catch (error) {
+        result = {
+          status: 400,
+          message: 'Error when getting order list of a user',
+          orders: null,
+        };
+      }
     } else {
-      result = { status: 200, message: 'UserId not set', orders: null };
+      result = { status: 500, message: 'UserId not set', orders: null };
     }
 
     return result;
@@ -90,17 +112,25 @@ export class OrderController {
   public async findOrderByOrderId(data: IOrderCheckParams) {
     // here get order stuff
     let result: IGetOrderResponse;
-    if (data) {
-      const res: IOrder = await this.orderService.findOrderByOrderId(data);
+    if (data && data.orderId) {
+      try {
+        const res: IOrder = await this.orderService.findOrderByOrderId(data);
 
-      result = {
-        status: 200,
-        message: 'Get order success',
-        order: res,
-      };
+        result = {
+          status: 200,
+          message: 'Get order success',
+          order: res,
+        };
+      } catch (err) {
+        result = {
+          status: 400,
+          message: 'Error when get 1 order',
+          order: null,
+        };
+      }
     } else {
       result = {
-        status: 200,
+        status: 500,
         message: 'No data',
         order: null,
       };
@@ -111,7 +141,6 @@ export class OrderController {
 
   @MessagePattern('update_order')
   public async updateOrder(updateBody: IOrderUpdateParams) {
-    // here get update stuff
     return await this.orderService.updateOrder(updateBody);
   }
 
@@ -119,7 +148,6 @@ export class OrderController {
   public async receive_order_status(
     paymentStatusUpdate: IReceivePaymentStatusParams,
   ) {
-    //this.updateOrder(paymentStatusUpdate);
     return await this.orderService.updatePaymentStatus(paymentStatusUpdate);
   }
 }
