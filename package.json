@@ -1,0 +1,8 @@
+{
+  "name": "setel-attempt",
+  "version": "1.0.0",
+  "description": "setel assessment using microservice solution",
+  "main": "index.js",
+  "author": "ken choong",
+  "license": "MIT"
+}
