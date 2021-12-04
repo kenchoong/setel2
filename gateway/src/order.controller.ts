@@ -20,13 +20,14 @@ export class OrderController {
   constructor(
     @Inject('ORDER_SERVICE')
     private readonly orderServiceClient: ClientProxy,
-    @Inject('PAYMENT_SERVICE')
-    private readonly paymentServiceClient: ClientProxy,
   ) {}
 
   @Post()
   public async createOrder(@Body() body: CreateOrderDTO, @Req() req) {
     // here get order stuff
+
+    // here send the message to order service
+    this.orderServiceClient.send('create_order', body);
   }
 
   @Get('/status/:orderId/:userId')
