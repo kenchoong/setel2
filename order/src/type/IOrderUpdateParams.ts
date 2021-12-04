@@ -3,7 +3,7 @@ class UpdateOrderDto {
   userId: string;
 }
 
-export interface IOrderUpdate {
+export interface IOrderUpdateParams {
   orderId: string;
   body: UpdateOrderDto;
 }
