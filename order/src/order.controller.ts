@@ -1,5 +1,5 @@
 import { Controller, Inject } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import { OrderService } from './services/order.service';
 import { IOrderCheckParams } from './type/IOrderCheckParams';
 import { IOrderUpdateParams } from './type/IOrderUpdateParams';
@@ -11,6 +11,7 @@ import { ICheckOrderResponse } from './responseType/ICheckOrderResponse';
 import { IUpdateOrderResponse } from './responseType/IUpdateOrderResponse';
 import { IGetOrderResponse } from './responseType/IGetOrderResponse';
 import { IListOrderResponse } from './responseType/IListOrderResponse';
+import { IReceiveOrderParams } from './type/IReceiveOrderParams';
 
 @Controller()
 export class OrderController {
@@ -95,7 +96,7 @@ export class OrderController {
 
       result = {
         status: 200,
-        message: 'No data',
+        message: 'Get order success',
         order: res,
       };
     } else {
@@ -111,6 +112,11 @@ export class OrderController {
 
   @MessagePattern('update_order')
   public async updateOrder(updateBody: IOrderUpdateParams) {
-    // here get order stuff
+    // here get update stuff
+  }
+
+  @EventPattern('receive_order_status')
+  public async receive_order_status(paymentStatusData: IReceiveOrderParams) {
+    //this.updateOrder()
   }
 }

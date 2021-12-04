@@ -23,6 +23,8 @@ import { IListOrderResponse } from './serviceResponseType/IListOrderResponse';
 import { IListOrderReturnType } from './endpointReturnType/IListOrderReturnType';
 import { IGetOrderReturnType } from './endpointReturnType/IGetOrderReturnType';
 
+import { ProcessPaymentPayload } from './dto/payment/ProcessPaymentPayloadDto';
+
 @Controller('orders')
 export class OrderController {
   constructor(
@@ -30,18 +32,18 @@ export class OrderController {
     private readonly orderServiceClient: ClientProxy,
   ) {}
 
-  @Post()
-  public async createOrder(@Body() body: CreateOrderDTO, @Req() req) {
-    // here get order stuff
+  async publishEvent(payload: ProcessPaymentPayload): Promise<any> {
+    return this.orderServiceClient.emit('process_payment', payload);
+  }
 
+  @Post()
+  public async createOrder(@Body() body: CreateOrderDTO) {
     // here send the message to order service
     let result: ICreateOrderReturnType;
     try {
       const res: ICreateOrderResponse = await firstValueFrom(
         this.orderServiceClient.send('create_order', body),
       );
-
-      // TODO: trigger the payment method
 
       if (res.status !== 200) {
         result = {
@@ -50,13 +52,32 @@ export class OrderController {
           created: null,
         };
       } else {
-        result = {
-          ok: true,
-          created: {
-            id: res.order.orderId,
-          },
-          payment: 'processing',
-        };
+        try {
+          // trigger payment method
+          const orderObject = res.order;
+          await this.publishEvent(
+            new ProcessPaymentPayload(
+              orderObject.productId,
+              orderObject.orderId,
+              orderObject.userId,
+            ),
+          );
+
+          // no problem then return the response to client
+          result = {
+            ok: true,
+            created: {
+              id: res.order.orderId,
+            },
+            payment: 'processing',
+          };
+        } catch (err) {
+          result = {
+            ok: false,
+            payment: 'failed',
+            created: null,
+          };
+        }
       }
     } catch (err) {
       result = {
