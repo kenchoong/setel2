@@ -9,9 +9,19 @@ import {
   Param,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
 
 import { CreateOrderDTO } from './dto/order/CreateOrderDto';
 import { UpdateOrderDto } from './dto/order/UpdateOrderDto';
+
+import { ICreateOrderResponse } from './serviceResponseType/ICreateOrderResponse';
+import { IGetOrderResponse } from './serviceResponseType/IGetOrderResponse';
+import { ICheckOrderResponse } from './serviceResponseType/ICheckOrderResponse';
+import { ICreateOrderReturnType } from './endpointReturnType/ICreateOrderReturnType';
+import { ICheckOrderReturnType } from './endpointReturnType/ICheckOrderReturnType';
+import { IListOrderResponse } from './serviceResponseType/IListOrderResponse';
+import { IListOrderReturnType } from './endpointReturnType/IListOrderReturnType';
+import { IGetOrderReturnType } from './endpointReturnType/IGetOrderReturnType';
 
 @Controller('orders')
 export class OrderController {
@@ -25,9 +35,37 @@ export class OrderController {
     // here get order stuff
 
     // here send the message to order service
-    this.orderServiceClient.send('create_order', body);
+    let result: ICreateOrderReturnType;
+    try {
+      const res: ICreateOrderResponse = await firstValueFrom(
+        this.orderServiceClient.send('create_order', body),
+      );
 
-    // TODO: trigger the payment method
+      // TODO: trigger the payment method
+
+      if (res.status !== 200) {
+        result = {
+          ok: false,
+          payment: 'failed',
+          created: null,
+        };
+      } else {
+        result = {
+          ok: true,
+          created: {
+            id: res.order.orderId,
+          },
+          payment: 'processing',
+        };
+      }
+    } catch (err) {
+      result = {
+        ok: false,
+        payment: 'failed',
+        created: null,
+      };
+    }
+    return result;
   }
 
   @Get('/status/:orderId/:userId')
@@ -36,16 +74,62 @@ export class OrderController {
     @Param('userId') userId: string,
   ) {
     // here check status
-    this.orderServiceClient.send('list_order', {
-      orderId: orderId,
-      userId: userId,
-    });
+    let result: ICheckOrderReturnType;
+
+    try {
+      const res: ICheckOrderResponse = await firstValueFrom(
+        this.orderServiceClient.send('check_order_status', userId),
+      );
+
+      if (res.status != 200) {
+        result = {
+          ok: false,
+          orderStatus: null,
+        };
+      } else {
+        result = {
+          ok: true,
+          orderStatus: res.orderStatus,
+        };
+      }
+    } catch (error) {
+      result = {
+        ok: false,
+        orderStatus: null,
+      };
+    }
+
+    return result;
   }
 
   @Get(':userId')
   public async listOrder(@Param('userId') userId: string) {
     // here get order stuff
-    this.orderServiceClient.send('check_order_status', userId);
+    let result: IListOrderReturnType;
+    try {
+      const res: IListOrderResponse = await firstValueFrom(
+        this.orderServiceClient.send('list_order', userId),
+      );
+
+      if (res.status != 200) {
+        result = {
+          ok: false,
+          orders: null,
+        };
+      }
+
+      result = {
+        ok: true,
+        orders: res.orders,
+      };
+    } catch (error) {
+      result = {
+        ok: false,
+        orders: null,
+      };
+    }
+
+    return result;
   }
 
   @Get('/:userId/:orderId')
@@ -54,10 +138,34 @@ export class OrderController {
     @Param('userId') userId: string,
   ) {
     // here get order stuff
-    this.orderServiceClient.send('find_order_by_id', {
-      orderId: orderId,
-      userId: userId,
-    });
+    let result: IGetOrderReturnType;
+    try {
+      const res: IGetOrderResponse = await firstValueFrom(
+        this.orderServiceClient.send('find_order_by_id', {
+          orderId: orderId,
+          userId: userId,
+        }),
+      );
+
+      if (res.status !== 200) {
+        result = {
+          ok: false,
+          order: null,
+        };
+      } else {
+        result = {
+          ok: true,
+          order: res.order,
+        };
+      }
+    } catch (error) {
+      result = {
+        ok: false,
+        order: null,
+      };
+    }
+
+    return result;
   }
 
   @Put(':orderId')
