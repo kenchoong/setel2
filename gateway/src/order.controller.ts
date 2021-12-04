@@ -33,7 +33,7 @@ export class OrderController {
   ) {}
 
   async publishEvent(payload: ProcessPaymentPayload): Promise<any> {
-    return this.orderServiceClient.emit('process_payment', payload);
+    return this.orderServiceClient.emit('process_order_payment', payload);
   }
 
   @Post()

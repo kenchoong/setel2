@@ -7,6 +7,7 @@ import { IOrderCreateParams } from 'src/type/IOrderCreateParams';
 import { IOrderUpdateParams } from 'src/type/IOrderUpdateParams';
 import { IOrderUpdateResult } from 'src/type/IUpdateOrderResult';
 import { ICheckOrderResult } from 'src/type/ICheckOrderResult';
+import { IReceiveOrderParams } from 'src/type/IReceivePaymentStatusParams';
 
 // https://docs.nestjs.com/recipes/mongodb#mongodb-mongoose
 
@@ -36,14 +37,22 @@ export class OrderService {
     return await this.orderModel.findById(data.orderId);
   }
 
-  /*
   async updateOrder(
     updateBody: IOrderUpdateParams,
-  ): Promise<IOrderUpdateResult> {
-    
+  ): Promise<IOrderUpdateParams> {
+    /*
     return await this.orderModel.updateOne(
       { orderId: updateBody.orderId },
       updateBody,
-    );
-  }*/
+    );*/
+  }
+  async updatePaymentStatus(data: IReceiveOrderParams): Promise<IOrder> {
+    /*
+    return await this.orderModel.updateOne(
+      {
+        orderId: data.orderId,
+      },
+      data,
+    );*/
+  }
 }

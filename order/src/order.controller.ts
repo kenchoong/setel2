@@ -11,7 +11,8 @@ import { ICheckOrderResponse } from './responseType/ICheckOrderResponse';
 import { IUpdateOrderResponse } from './responseType/IUpdateOrderResponse';
 import { IGetOrderResponse } from './responseType/IGetOrderResponse';
 import { IListOrderResponse } from './responseType/IListOrderResponse';
-import { IReceiveOrderParams } from './type/IReceiveOrderParams';
+import { IReceivePaymentStatusParams } from './type/IReceivePaymentStatusParams';
+//import { IUpdateOrderResponse } from './responseType/IUpdateOrderResponse';
 
 @Controller()
 export class OrderController {
@@ -113,10 +114,14 @@ export class OrderController {
   @MessagePattern('update_order')
   public async updateOrder(updateBody: IOrderUpdateParams) {
     // here get update stuff
+    return await this.orderService.updateOrder(updateBody);
   }
 
-  @EventPattern('receive_order_status')
-  public async receive_order_status(paymentStatusData: IReceiveOrderParams) {
-    //this.updateOrder()
+  @EventPattern('receive_payment_status')
+  public async receive_order_status(
+    paymentStatusUpdate: IReceivePaymentStatusParams,
+  ) {
+    //this.updateOrder(paymentStatusUpdate);
+    return await this.orderService.updatePaymentStatus(paymentStatusUpdate);
   }
 }
