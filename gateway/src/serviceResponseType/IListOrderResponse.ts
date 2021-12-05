@@ -1,4 +1,4 @@
-import { IOrder } from 'src/type/IOrder';
+import { IOrder } from '../endpointReturnType/IOrder';
 
 export interface IListOrderResponse {
   status: number;

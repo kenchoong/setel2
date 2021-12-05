@@ -1,5 +1,5 @@
 FROM node:14.8.0-alpine
-RUN npm install -g npm@6.14.7
+RUN npm install -g latest-version
 RUN mkdir -p /var/www/payment
 WORKDIR /var/www/payment
 ADD . /var/www/payment
