@@ -1,15 +1,23 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PaymentController } from './payment.controller';
 import { PaymentService } from './payment.service';
+import { ConfigService } from './services/config/ConfigService';
+import { ClientProxyFactory } from '@nestjs/microservices';
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      { name: 'PAYMENT_SERVICE', transport: Transport.TCP },
-    ]),
-  ],
+  imports: [],
   controllers: [PaymentController],
-  providers: [PaymentService],
+  providers: [
+    PaymentService,
+    ConfigService,
+    {
+      provide: 'ORDER_SERVICE',
+      useFactory: (configService: ConfigService) => {
+        const orderServiceOptions = configService.get('orderService');
+        return ClientProxyFactory.create(orderServiceOptions);
+      },
+      inject: [ConfigService],
+    },
+  ],
 })
 export class PaymentModule {}

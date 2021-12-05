@@ -2,7 +2,6 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { IOrder } from 'src/type/IOrder';
-import { IOrderCheckParams } from 'src/type/IOrderCheckParams';
 import { IOrderCreateParams } from 'src/type/IOrderCreateParams';
 import { IOrderUpdateParams } from 'src/type/IOrderUpdateParams';
 import { IOrderUpdateResult } from 'src/type/IUpdateOrderResult';
@@ -20,31 +19,40 @@ export class OrderService {
     @InjectModel('Order') private readonly orderModel: Model<IOrder>,
   ) {}
 
-  async createOrder(orderBody: IOrderCreateParams): Promise<IOrder> {
+  public async createOrder(
+    orderBody: IOrderCreateParams,
+  ): Promise<IOrderCreateParams> {
     const orderModel = new this.orderModel(orderBody);
-    return await orderModel.save();
+    const res = await orderModel.save();
+
+    console.log('order model response = ', res);
+
+    return res;
   }
 
-  async checkOrderStatus(data: IOrderCheckParams): Promise<ICheckOrderResult> {
-    return this.orderModel.findById(data.orderId);
+  public async checkOrderStatus(orderId: string): Promise<ICheckOrderResult> {
+    const res = this.orderModel.findById(orderId);
+    return res;
   }
 
-  async listOrder(userId: string): Promise<IOrder[]> {
-    return this.orderModel.find({ userId: userId }).exec();
+  public async listOrder(userId: string): Promise<IOrder[]> {
+    return await this.orderModel.find({ userId: userId }).exec();
   }
 
-  async findOrderByOrderId(data: IOrderCheckParams): Promise<IOrder> {
-    return await this.orderModel.findById(data.orderId);
+  public async findOrderByOrderId(orderId: string) {
+    return await this.orderModel.findById(orderId);
   }
 
-  async updateOrder(params: IOrderUpdateParams): Promise<IOrderUpdateResult> {
+  public async updateOrder(
+    params: IOrderUpdateParams,
+  ): Promise<IOrderUpdateResult> {
     return await this.orderModel.findByIdAndUpdate(
       { _id: params.orderId },
       params,
     );
   }
 
-  async updatePaymentStatus(
+  public async updatePaymentStatus(
     params: IReceivePaymentStatusParams,
   ): Promise<IUpdatePaymentStatusResult> {
     return await this.orderModel.findByIdAndUpdate(

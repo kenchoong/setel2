@@ -1,41 +1,55 @@
 import * as mongoose from 'mongoose';
 import { IOrder } from 'src/type/IOrder';
 
+function transformValue(doc, ret: { [key: string]: any }) {
+  delete ret._id;
+}
+
 // Here I think can act like Entity
-export const OrderSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: [true, 'UserId can not be empty'],
+export const OrderSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: String,
+      required: [true, 'UserId can not be empty'],
+    },
+    productId: {
+      type: String,
+      required: [true, 'ProductId can not be empty'],
+    },
+    productName: {
+      type: String,
+      required: [true, 'ProductName can not be empty'],
+    },
+    totalOrderAmount: {
+      type: String,
+      required: [true, 'TotalOrderAmount can not be empty'],
+    },
+    orderStatus: {
+      type: String,
+      required: [true, 'OrderStatus can not be empty'],
+    },
+    paymentStatus: {
+      type: String,
+      default: 'Processing',
+    },
   },
-  orderId: {
-    type: String,
-    required: [true, 'OrderId can not be empty'],
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+    },
+    toObject: {
+      virtuals: true,
+      versionKey: false,
+      transform: transformValue,
+    },
+    toJSON: {
+      virtuals: true,
+      versionKey: false,
+      transform: transformValue,
+    },
   },
-  productId: {
-    type: String,
-    required: [true, 'ProductId can not be empty'],
-  },
-  productName: {
-    type: String,
-    required: [true, 'ProductName can not be empty'],
-  },
-  totalOrderAmount: {
-    type: String,
-    required: [true, 'TotalOrderAmount can not be empty'],
-  },
-  orderStatus: {
-    type: String,
-    required: [true, 'OrderStatus can not be empty'],
-  },
-  paymentStatus: {
-    type: String,
-    default: 'Processing',
-  },
-  createdAt: {
-    type: String,
-    required: [true, 'Date can not be empty'],
-  },
-});
+);
 
 OrderSchema.pre('validate', function (next) {
   const self = this as IOrder;

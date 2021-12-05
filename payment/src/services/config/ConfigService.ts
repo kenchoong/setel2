@@ -4,10 +4,12 @@ export class ConfigService {
   private readonly envConfig: { [key: string]: any } = null;
 
   constructor() {
-    this.envConfig = {
+    this.envConfig = {};
+    this.envConfig.port = process.env.PAYMENT_SERVICE_PORT;
+    this.envConfig.orderService = {
       options: {
-        port: process.env.PAYMENT_SERVICE_PORT,
-        host: process.env.PAYMENT_SERVICE_HOST,
+        port: process.env.ORDER_SERVICE_PORT,
+        host: process.env.ORDER_SERVICE_HOST,
       },
       transport: Transport.TCP,
     };

@@ -13,8 +13,16 @@ import { ClientProxyFactory } from '@nestjs/microservices';
     {
       provide: 'ORDER_SERVICE',
       useFactory: (configService: ConfigService) => {
-        const tokenServiceOptions = configService.get('orderService');
-        return ClientProxyFactory.create(tokenServiceOptions);
+        const orderServiceOptions = configService.get('orderService');
+        return ClientProxyFactory.create(orderServiceOptions);
+      },
+      inject: [ConfigService],
+    },
+    {
+      provide: 'PAYMENT_SERVICE',
+      useFactory: (configService: ConfigService) => {
+        const paymentServiceOptions = configService.get('paymentService');
+        return ClientProxyFactory.create(paymentServiceOptions);
       },
       inject: [ConfigService],
     },

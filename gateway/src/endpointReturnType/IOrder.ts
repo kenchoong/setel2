@@ -1,6 +1,6 @@
 export interface IOrder {
   userId: string;
-  orderId: string;
+  id: string;
   productId: string;
   productName: string;
   totalOrderAmount: string;

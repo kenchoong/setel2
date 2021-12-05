@@ -4,6 +4,8 @@ import { OrderService } from './services/order.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { OrderSchema } from './schema/order.schema';
 import { MongoConfigService } from './services/config/MongoConfig';
+import { ConfigService } from './services/config/ConfigService';
+import { ClientProxyFactory } from '@nestjs/microservices';
 
 // here should import the db stuff
 @Module({
@@ -19,6 +21,17 @@ import { MongoConfigService } from './services/config/MongoConfig';
     ]),
   ],
   controllers: [OrderController],
-  providers: [OrderService],
+  providers: [
+    OrderService,
+    ConfigService,
+    {
+      provide: 'PAYMENT_SERVICE',
+      useFactory: (configService: ConfigService) => {
+        const paymentServiceOptions = configService.get('paymentService');
+        return ClientProxyFactory.create(paymentServiceOptions);
+      },
+      inject: [ConfigService],
+    },
+  ],
 })
 export class OrderModule {}
