@@ -26,7 +26,7 @@ export const OrderSchema = new mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      required: [true, 'OrderStatus can not be empty'],
+      default: 'Processing Payment',
     },
     paymentStatus: {
       type: String,
