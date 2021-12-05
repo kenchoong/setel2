@@ -4,11 +4,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { IOrder } from 'src/type/IOrder';
 import { IOrderCreateParams } from 'src/type/IOrderCreateParams';
 import { IOrderUpdateParams } from 'src/type/IOrderUpdateParams';
-import { IOrderUpdateResult } from 'src/type/IUpdateOrderResult';
 import { ICheckOrderResult } from 'src/type/ICheckOrderResult';
-import { IReceivePaymentStatusParams } from 'src/type/IReceivePaymentStatusParams';
-import { IUpdatePaymentStatusResult } from 'src/type/IUpdatePaymentStatusResult';
 
+import { IUpdatePaymentStatusResult } from 'src/type/IUpdatePaymentStatusResult';
+import { NotifyOrderPayload } from 'src/dto/NotifyOrderDto';
 // https://docs.nestjs.com/recipes/mongodb#mongodb-mongoose
 
 // https://docs.nestjs.com/techniques/mongodb
@@ -40,20 +39,18 @@ export class OrderService {
   }
 
   public async findOrderByOrderId(orderId: string) {
-    return await this.orderModel.findById(orderId);
+    return this.orderModel.findById(orderId);
   }
 
-  public async updateOrder(
-    params: IOrderUpdateParams,
-  ): Promise<IOrderUpdateResult> {
+  public async updateOrder(params: IOrderUpdateParams): Promise<IOrder> {
     return await this.orderModel.findByIdAndUpdate(
       { _id: params.orderId },
       params,
     );
   }
 
-  public async updatePaymentStatus(
-    params: IReceivePaymentStatusParams,
+  public async updateOrderStatus(
+    params: NotifyOrderPayload,
   ): Promise<IUpdatePaymentStatusResult> {
     return await this.orderModel.findByIdAndUpdate(
       { _id: params.orderId },

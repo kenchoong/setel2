@@ -13,8 +13,9 @@ import { ICreateOrderResponse } from './responseType/ICreateOrderResponse';
 import { ICheckOrderResponse } from './responseType/ICheckOrderResponse';
 import { IGetOrderResponse } from './responseType/IGetOrderResponse';
 import { IListOrderResponse } from './responseType/IListOrderResponse';
-import { IReceivePaymentStatusParams } from './type/IReceivePaymentStatusParams';
 import { ProcessPaymentPayload } from './dto/ProcessPaymentPayloadDto';
+import { IUpdateOrderResponse } from './responseType/IUpdateOrderResponse';
+import { NotifyOrderPayload } from './dto/NotifyOrderDto';
 
 @Controller()
 export class OrderController {
@@ -31,14 +32,11 @@ export class OrderController {
   }
 
   @EventPattern('receive_payment_status')
-  public async receive_order_status(
-    paymentStatusUpdate: IReceivePaymentStatusParams,
-  ) {
+  public async receive_order_status(orderStatusUpdate: NotifyOrderPayload) {
     console.log('========== START UPDATE PAYMENT SERVICE==========');
-    const res = await this.orderService.updatePaymentStatus(
-      paymentStatusUpdate,
-    );
-    console.log(res);
+    console.log('LINE 38 ORDER Controller', orderStatusUpdate);
+    const res = await this.orderService.updateOrderStatus(orderStatusUpdate);
+    console.log('LINE 41 ORDER Controller', res);
 
     return res;
   }
@@ -57,10 +55,9 @@ export class OrderController {
         console.log(res);
 
         try {
-          const emitMessageResult = await this.publishEvent(
+          await this.publishEvent(
             new ProcessPaymentPayload(res.productId, res.id, res.userId),
           );
-          console.log('emitMessageResult== ', emitMessageResult);
 
           result = {
             status: 200,
@@ -104,7 +101,7 @@ export class OrderController {
         const res: ICheckOrderResult = await this.orderService.checkOrderStatus(
           orderId,
         );
-        console.log(res);
+
         if (res && res.orderStatus) {
           result = {
             status: 200,
@@ -127,7 +124,6 @@ export class OrderController {
         };
       }
     } else {
-      console.log('No data');
       result = {
         status: 500,
         message: 'Check status failed',
@@ -161,7 +157,6 @@ export class OrderController {
         };
       }
     } else {
-      console.log('No data');
       result = { status: 500, message: 'UserId not set', orders: null };
     }
 
@@ -191,7 +186,7 @@ export class OrderController {
         };
       }
     } else {
-      console.log('No orderId');
+      console.log('Order order id');
       result = {
         status: 500,
         message: 'No orderId',
@@ -205,6 +200,23 @@ export class OrderController {
   @MessagePattern('update_order')
   public async updateOrder(updateBody: IOrderUpdateParams) {
     console.log('========== START UPDATE ORDER SERVICE==========');
-    return await this.orderService.updateOrder(updateBody);
+    console.log(updateBody);
+    let result: IUpdateOrderResponse;
+    if (updateBody && updateBody.orderId && updateBody.orderStatus) {
+      try {
+        const res = await this.orderService.updateOrder(updateBody);
+        console.log(res);
+        result = {
+          status: 500,
+          message: 'Done update order',
+        };
+      } catch (err) {
+        result = {
+          status: 500,
+          message: 'Data not completed',
+        };
+      }
+    }
+    return result;
   }
 }

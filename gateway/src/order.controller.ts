@@ -4,9 +4,9 @@ import {
   Put,
   Get,
   Body,
-  Req,
   Inject,
   Param,
+  Query,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -22,8 +22,6 @@ import { ICheckOrderReturnType } from './endpointReturnType/ICheckOrderReturnTyp
 import { IListOrderResponse } from './serviceResponseType/IListOrderResponse';
 import { IListOrderReturnType } from './endpointReturnType/IListOrderReturnType';
 import { IGetOrderReturnType } from './endpointReturnType/IGetOrderReturnType';
-
-import { ProcessPaymentPayload } from './dto/payment/ProcessPaymentPayloadDto';
 
 @Controller('orders')
 export class OrderController {
@@ -41,10 +39,7 @@ export class OrderController {
       const res: ICreateOrderResponse = await firstValueFrom(
         this.orderServiceClient.send('create_order', body),
       );
-      const orderObject = res.order;
 
-      console.log(res);
-      console.log(orderObject);
       if (res.status !== 200) {
         console.log('========== DONE CREATE ORDER BUT FAILED==========');
         result = {
@@ -106,7 +101,7 @@ export class OrderController {
     return result;
   }
 
-  @Get(':userId')
+  @Get('/:userId')
   public async listOrder(@Param('userId') userId: string) {
     console.log('========== START LIST ORDER ==========');
     // here get order stuff
@@ -116,7 +111,6 @@ export class OrderController {
         this.orderServiceClient.send('list_order', userId),
       );
       console.log('==========DONE START CREATE ORDER ==========');
-      console.log(res);
       if (res.status != 200) {
         result = {
           ok: false,
@@ -139,11 +133,12 @@ export class OrderController {
     return result;
   }
 
-  @Get('/:orderId')
+  @Get('/one/:orderId')
   public async findOrderByOrderId(@Param('orderId') orderId: string) {
     // here get order stuff
     console.log('========== START FIND ORDER BY ID ==========');
     let result: IGetOrderReturnType;
+    console.log(orderId);
     try {
       const res: IGetOrderResponse = await firstValueFrom(
         this.orderServiceClient.send('find_order_by_id', orderId),
@@ -174,16 +169,27 @@ export class OrderController {
     return result;
   }
 
-  @Put(':orderId')
-  public async updateOrder(
-    @Param('orderId') orderId: string,
-    @Body() body: UpdateOrderDto,
-  ) {
+  @Put()
+  public async updateOrder(@Body() body: UpdateOrderDto) {
     console.log('========== UPDATE CREATE ORDER ==========');
+    let result;
     // here get order stuff
-    this.orderServiceClient.send('update_order', {
-      orderId: orderId,
-      body,
-    });
+    try {
+      const res = await firstValueFrom(
+        this.orderServiceClient.send('update_order', body),
+      );
+
+      console.log(res);
+      result = {
+        ok: true,
+        message: 'Update order success',
+      };
+    } catch (err) {
+      result = {
+        ok: false,
+        message: 'Update order failed',
+      };
+    }
+    return result;
   }
 }
