@@ -60,7 +60,7 @@ Below is all the endpoint and also params
 
 ## Behind the scenes
 
-![Diagram](../master/docker.png)
+![Diagram](../main/docker.png)
 
 1. Gateway service: Expose Port:7000 to the public
 2. Order MicroService: When Gateway get a request, will `send()` Order using Nestjs Message-Pattern
