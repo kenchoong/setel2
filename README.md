@@ -70,6 +70,20 @@ Below is all the endpoint and also params
 4. Payment MicroService will get subsribe event from Order Service. When done process payment `emit()` a message back to OrderService.
 5. OrderService receive message from PaymentService then Update `orderStatus` of the Order in db.
 
+To prove this, this is what you will see in console when call `POST /order`
+
+```
+========== START CREATE ORDER ====================< Gateway: trigger by API call
+========== START CREATE ORDER SERVICE ============< OrderService: Receive call from Gateway
+========== DONE CREATE ORDER ========== ==========< OrderService: Done create order in DB, return response to User
+========== EMITTING MESSAGE ======================< OrderService: send message to PaymentService
+========= START PROCESS ORDER PAYMENT SERVICE=====< PaymentService: receive message from OrderService
+========== DONE START PROCESS ORDER PAYMENT SERVICE< PaymentService: Processing the payment
+========== EMIT MESSAGE TO ORDER SERVICE========== < PaymentService: Send message and payload to OrderService
+========== START UPDATE PAYMENT SERVICE=========== < OrderService: Receive message payload from OrderService
+'LINE 41 ORDER Controller', {Updated Order object} < OrderService: Done update Order object in DB, and return the result
+
+```
 ## Domain Driven Design
 
 Each microservices only handle 1 thing. Each of them is a complete separate Nestjs app, what happen in Vegas stay at Vegas. Communicate with each other using TCP right now.
