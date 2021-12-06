@@ -72,7 +72,7 @@ Below is all the endpoint and also params
 
 To prove this, this is what you will see in console when call `POST /order`
 
-```
+```ts
 ========== START CREATE ORDER ====================< Gateway: trigger by API call
 ========== START CREATE ORDER SERVICE ============< OrderService: Receive call from Gateway
 ========== DONE CREATE ORDER ========== ==========< OrderService: Done create order in DB, return response to User
