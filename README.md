@@ -2,7 +2,7 @@
 
 After our last conversation, I notice that what I have done in previos assessment is not what the team looking for. Therefore I make this project to demonstrate I may be have what the team looking for
 
-Only in backend with this endpoint, which is same like the previous endpoint, just to demonstrate how the data flow
+Only in backend with this assessment, which is same like the previous endpoint, just to demonstrate how the data flow
 
 ## Stack
 

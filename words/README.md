@@ -19,9 +19,9 @@ After done this assessment, I noticed a few advantages of this architeture:
 
 3. Since it is event based, so it like `publish the message out, then done`, more easier to manage in the workflow.
 
-4. Using this team is definitely easier to work together, cause everyone also work on separate function for separate folder. 
+4. Using this team is definitely easier to work together, cause everyone also work on separate function for separate folder.
 
-Disadvantage
+Disadvantage I havent notice yet.
 
 CD/CI stuff
 CD/CI definitely very important in this type architeture. If everything run on my local pc, I will definitely get mad 😂. I can do this. Therefore I present in this assessment as well. I try to give as clear as possible commit message in this assessment. If your team is using some tools like Commitizen, I can follow as well.
