@@ -12,7 +12,7 @@ Only in backend with this endpoint, which is same like the previous endpoint, ju
 
 ## Run in docker
 
-> $ Git clone https://github.com/kenchoong/setel2.git
+> $ git clone https://github.com/kenchoong/setel2.git
 >
 > $ docker-compose up -d
 >
