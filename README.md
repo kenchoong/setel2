@@ -79,7 +79,7 @@ By default `orderStatus` in Order(in DB) is `Processing`, after `POST /order`, t
 1. Gateway service: Expose Port:7000 to the public
 2. Order MicroService: When Gateway get a request, will `send()` Order using Nestjs Message-Pattern
 3. Order service interact with MongoDB CRUD. When successfully create an Order, will `emit()` a message which will trigger Payment Service.
-4. Payment MicroService will get subsribe event from Order Service. When done process payment `emit()` a message back to PaymentService.
+4. Payment MicroService will get subsribe event from Order Service. When done process payment `emit()` a message back to OrderService.
 5. OrderService receive message from PaymentService then Update `orderStatus` of the Order in db.
 
 To prove this, this is what you will see in console when call `POST /order`
@@ -92,7 +92,7 @@ To prove this, this is what you will see in console when call `POST /order`
 ========= START PROCESS ORDER PAYMENT SERVICE=====< PaymentService: receive message from OrderService
 ========== DONE START PROCESS ORDER PAYMENT SERVICE< PaymentService: Processing the payment
 ========== EMIT MESSAGE TO ORDER SERVICE========== < PaymentService: Send message and payload to OrderService
-========== START UPDATE PAYMENT SERVICE=========== < OrderService: Receive message payload from OrderService
+========== START UPDATE PAYMENT SERVICE=========== < OrderService: Receive message payload from PaymentService
 'LINE 41 ORDER Controller', {Updated Order object} < OrderService: Done update Order object in DB, and return the result
 
 ```
