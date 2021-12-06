@@ -26,8 +26,6 @@ Disadvantage I havent notice yet.
 CD/CI stuff
 CD/CI definitely very important in this type architeture. If everything run on my local pc, I will definitely get mad 😂. I can do this. Therefore I present in this assessment as well. I try to give as clear as possible commit message in this assessment. If your team is using some tools like Commitizen, I can follow as well. And also the pipeline to build the docker images, with tags and so on, this I aware that. But I just stuff here
 
-I definitely need to explore more about Kubernetes. Never have chance to work on this before, if use this in my situation right now, is like overkill already 😂
-
 Happy to talk to you guys, I learned a lot in the whole proces and definitely open some new doors for me. Anyway, hope we can work together one day.
 
 Thanks for reading and Have a good day.
