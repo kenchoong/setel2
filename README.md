@@ -14,7 +14,7 @@ Only in backend with this endpoint, which is same like the previous endpoint, ju
 
 > $ git clone https://github.com/kenchoong/setel2.git
 >
-> $ docker-compose up -d
+> $ docker-compose up
 >
 > $ wait the container build
 >
