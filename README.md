@@ -10,8 +10,6 @@ Only in backend with this endpoint, which is same like the previous endpoint, ju
 - Docker
 - MongoDB
 
-
-
 ## Run in docker
 
 > $ Git clone https://github.com/kenchoong/setel2.git
@@ -20,7 +18,7 @@ Only in backend with this endpoint, which is same like the previous endpoint, ju
 >
 > $ wait the container build
 >
-> $ this expose localhost post 7000 http://localhost:7000/orders 
+> $ this expose localhost port 7000 http://localhost:7000/orders
 
 Below is all the endpoint and also params
 
@@ -60,6 +58,37 @@ Below is all the endpoint and also params
 - `orders/status/:orderId`: Check status of 1 order
 - `orders/:userId`: Get all order of user
 
-## Behind the scenes 
+## Behind the scenes
 
+1. Gateway service: Expose Port:7000 to the public
+2. Order MicroService: When Gateway get a request, will `send()` Order using Nestjs Message-Pattern
+3. Order service interact with MongoDB CRUD. When successfully create an Order, will `emit()` a message which will trigger Payment Service.
+4. Payment MicroService will get subsribe event from Order Service. When done process payment `emit()` a message back to OrderService.
+5. OrderService receive message from PaymentService then Update `orderStatus` of the Order in db.
 
+## Domain Driven Design
+
+Each microservices only handle 1 thing. Each of them is a complete separate Nestjs app, what happen in Vegas stay at Vegas. Communicate with each other using TCP right now.
+
+Each file inside the app also only do 1 thing.
+
+- Controller: Only get event and return response
+- Service: Interact with DB
+- Interface: Defined all Data Transfer Object, and response type.
+  Implement `Screaming architeture` (hope it clear enough).
+
+## Deploy to AWS ECS
+
+For more can read [this](https://aws.amazon.com/blogs/containers/deploy-applications-on-amazon-ecs-using-docker-compose/)
+
+```
+// define a AWS ECS docker context
+$  docker context create ecs MyContextName
+
+// select profile in my system
+$ ? Create a Docker context using: MyProfile
+
+Successfully created ecs context "MyContextName "
+
+$  docker compose up
+```
