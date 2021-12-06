@@ -60,6 +60,8 @@ Below is all the endpoint and also params
 
 ## Behind the scenes
 
+![Diagram](../master/docker.png)
+
 1. Gateway service: Expose Port:7000 to the public
 2. Order MicroService: When Gateway get a request, will `send()` Order using Nestjs Message-Pattern
 3. Order service interact with MongoDB CRUD. When successfully create an Order, will `emit()` a message which will trigger Payment Service.
