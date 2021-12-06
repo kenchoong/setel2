@@ -28,6 +28,6 @@ CD/CI definitely very important in this type architeture. If everything run on m
 
 I definitely need to explore more about Kubernetes. Never have chance to work on this before, if use this in my situation right now, is like overkill already 😂
 
-Happy to talk you guys, I learned a lot in the whole process. Anyway, hope we can work together one day.
+Happy to talk you guys, I learned a lot in the whole process and open some new doors for me. Anyway, hope we can work together one day.
 
 Thanks for reading and Have a good day.
