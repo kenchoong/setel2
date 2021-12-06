@@ -22,7 +22,7 @@ Only backend for this assessment, which is same like the previous endpoint, just
 
 This will initialize 3 service `gateway`, `order`, `payment` and 1 `mongodb`, initialize admin user for the db at the beginning. And expose to port 7000. 
 
-Below is all the endpoint and also params
+Below is all the endpoint and also params, `http://localhost:7000`
 
 - `POST /orders` : Create order, json body
 
@@ -32,7 +32,7 @@ Below is all the endpoint and also params
   ```json
   {
     "userId": "1234",
-    "productId": "1", // 1 or 2
+    "productId": "1", // 1 will success, 2 will failed
     "productName": "Chicken wing",
     "totalOrderAmount": "RM 99",
     "orderStatus": "12345",
@@ -60,6 +60,9 @@ Below is all the endpoint and also params
 - `orders/status/:orderId`: Check status of 1 order
 - `orders/:userId`: Get all order of user
 
+By default `orderStatus` in Order(in DB) is `Processing`, after `POST /order`, then call `orders/one/:orderId`, the `orderStatus` will become `Success` now. 
+
+
 ## Behind the scenes
 
 ![Diagram](../main/docker.png)
@@ -84,6 +87,8 @@ To prove this, this is what you will see in console when call `POST /order`
 'LINE 41 ORDER Controller', {Updated Order object} < OrderService: Done update Order object in DB, and return the result
 
 ```
+
+
 ## Domain Driven Design
 
 Each microservices only handle 1 thing. Each of them is a complete separate Nestjs app, what happen in Vegas stay at Vegas. Communicate with each other using TCP right now.
