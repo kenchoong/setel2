@@ -97,4 +97,4 @@ Successfully created ecs context "MyContextName "
 $  docker compose up
 ```
 
-For more scalable stuff, I figure it out later, just complete this in 1 day
+For more scalable stuff, I figure it out later. 
