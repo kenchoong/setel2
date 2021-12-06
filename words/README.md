@@ -19,6 +19,8 @@ After done this assessment, I noticed a few advantages of this architeture:
 
 3. Since it is event based, so it like `publish the message out, then done`, more easier to manage in the workflow.
 
+4. Using this team is definitely easier to work together, cause everyone also work on separate function for separate folder. 
+
 Disadvantage
 
 CD/CI stuff
