@@ -2,7 +2,7 @@
 
 After our last conversation, I notice that what I have done in previos assessment is not what the team looking for. Therefore I make this project to demonstrate I may be have what the team looking for
 
-Only in backend with this assessment, which is same like the previous endpoint, just to demonstrate how the data flow
+Only backend for this assessment, which is same like the previous endpoint, just to demonstrate how the data flow
 
 ## Stack
 
@@ -19,6 +19,8 @@ Only in backend with this assessment, which is same like the previous endpoint, 
 > $ wait the container build
 >
 > $ this expose localhost port 7000 http://localhost:7000/orders
+
+This will initialize 3 service `gateway`, `order`, `payment` and 1 `mongodb`, initialize admin user for the db at the beginning. And expose to port 7000. 
 
 Below is all the endpoint and also params
 
@@ -94,3 +96,5 @@ Successfully created ecs context "MyContextName "
 
 $  docker compose up
 ```
+
+For more scalable stuff, I figure it out later, just complete this in 1 day
