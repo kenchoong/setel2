@@ -56,9 +56,9 @@ Below is all the endpoint and also params, `http://localhost:7000`
 
     </details>
 
-- `orders/one/:orderId`: Get 1 order
-- `orders/status/:orderId`: Check status of 1 order
-- `orders/:userId`: Get all order of user
+- `GET orders/one/:orderId`: Get 1 order
+- `GET orders/status/:orderId`: Check status of 1 order
+- `GET orders/:userId`: Get all order of user
 
 By default `orderStatus` in Order(in DB) is `Processing`, after `POST /order`, then call `orders/one/:orderId`, the `orderStatus` will become `Success` now, which is the response like this. 
 
