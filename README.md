@@ -124,7 +124,3 @@ Successfully created ecs context "MyContextName "
 
 $  docker compose up
 ```
-
-For more scalable stuff, I figure it out later. 
-
-Or what you really want in term of deployment, Let me know, I do that 
