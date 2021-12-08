@@ -126,3 +126,5 @@ $  docker compose up
 ```
 
 For more scalable stuff, I figure it out later. 
+
+Or what you really want, Let me know, I do that 
