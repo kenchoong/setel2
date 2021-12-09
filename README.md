@@ -20,9 +20,9 @@ Only backend for this assessment, which is same like the previous endpoint, just
 >
 > $ this expose localhost port 7000 http://localhost:7000/orders
 
-This will initialize 3 service `gateway`, `order`, `payment` and 1 `mongodb`, initialize admin user for the db at the beginning. And expose to port 7000. 
+This will initialize 3 service `gateway`, `order`, `payment` and 1 `mongodb`, initialize admin user for the db at the beginning. And expose to port 7000.
 
-Below is all the endpoint and also params, `http://localhost:7000`, a full documentation will be at  `http://localhost:7000/api`
+Below is all the endpoint and also params, `http://localhost:7000`, a full documentation in Swagger will be at [http://localhost:7000/api](http://localhost:7000/api)
 
 - `POST /orders` : Create order, json body
 
@@ -60,7 +60,7 @@ Below is all the endpoint and also params, `http://localhost:7000`, a full docum
 - `GET orders/status/:orderId`: Check status of 1 order
 - `GET orders/:userId`: Get all order of user
 
-By default `orderStatus` in Order(in DB) is `Processing`, after `POST /order`, then call `orders/one/:orderId`, the `orderStatus` will become `Success` now, which is the response like this. 
+By default `orderStatus` in Order(in DB) is `Processing`, after `POST /order`, then call `orders/one/:orderId`, the `orderStatus` will become `Success` now, which is the response like this.
 
 ```
 {
@@ -96,7 +96,6 @@ To prove this, this is what you will see in console when call `POST /order`
 'LINE 41 ORDER Controller', {Updated Order object} < OrderService: Done update Order object in DB, and return the result
 
 ```
-
 
 ## Domain Driven Design
 
