@@ -4,5 +4,6 @@
   "description": "setel assessment using microservice solution",
   "main": "index.js",
   "author": "ken choong",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }

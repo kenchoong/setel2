@@ -22,7 +22,7 @@ Only backend for this assessment, which is same like the previous endpoint, just
 
 This will initialize 3 service `gateway`, `order`, `payment` and 1 `mongodb`, initialize admin user for the db at the beginning. And expose to port 7000. 
 
-Below is all the endpoint and also params, `http://localhost:7000`
+Below is all the endpoint and also params, `http://localhost:7000`, a full documentation will be at  `http://localhost:7000/api`
 
 - `POST /orders` : Create order, json body
 
