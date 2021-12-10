@@ -170,4 +170,4 @@ Wait for Pod and Deployment ready in Minikube. Now all service is only 1 replica
 $ kubectl port-forward svc/gateway 7000:7000
 ```
 
-Now you can access the Swagger api documentation at [localhost:7000/api](http://localhost:7000/api), so with this can be deploy to any machine in the cloud using all spec files inside k8s-deployment folder. This is not ideal, but enough for local testing. Will update for a cloud solution, using AWS EKS later.
+Now you can access the Swagger api documentation at [localhost:7000/api](http://localhost:7000/api), so with this can be deploy to any machine in the cloud using all spec files inside k8s-deployment folder. This enough for local testing. Will update for a cloud solution, using AWS EKS later.
