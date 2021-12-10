@@ -124,7 +124,7 @@ Successfully created ecs context "MyContextName "
 $  docker compose up
 ```
 
-## Deploy container to Kubernetes cluster
+## Deploy container to Kubernetes cluster(locally)
 
 Prerequisite: Kubernetes, Kubectl, Minikube, Docker hub
 
