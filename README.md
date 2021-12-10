@@ -123,3 +123,52 @@ Successfully created ecs context "MyContextName "
 
 $  docker compose up
 ```
+
+## Deploy container to Kubernetes cluster
+
+Prerequisite: Kubernetes, Kubectl, Minikube, Docker hub
+
+Push all container to docker hub
+
+```
+$ docker login
+
+$ docker-compose build && docker-compose push
+
+All container will in this repo
+https://hub.docker.com/repository/docker/kenchoong012/setel
+```
+
+Start minikube dashboard
+
+```
+$ run command prompt as adminstrator
+
+// start minikube
+$ minikube start
+
+// here will open K8s dashboard in browser
+$ minikube dashboard
+
+```
+
+Deploy all the stuff into K8s
+
+```
+
+$ cd k8s-deployment
+
+// deploy all stuff into K8s
+$ kubectl apply -f backend-networkpolicy.yaml,db-claim0-persistentvolumeclaim.yaml,db-claim1-persistentvolumeclaim.yaml,db-claim2-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,env-configmap.yaml,frontend-networkpolicy.yaml,gateway-deployment.yaml,gateway-service.yaml,order-deployment.yaml,payment-deployment.yaml
+
+```
+
+Wait for Pod and Deployment ready in Minikube
+
+```
+// expose gateway k8s service to localhost:7000
+$ kubectl port-forward svc/gateway 7000:7000
+```
+
+Now you can access the Swagger api documentation at [localhost:7000/api](http://localhost:7000/api)
+

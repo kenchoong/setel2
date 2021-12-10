@@ -1,0 +1,19 @@
+apiVersion: v1
+data:
+  API_PORT: "7000"
+  MONGO_MY_DATABASE: testdb
+  MONGO_PASSWORD: somepw
+  MONGO_ROOT_PASSWORD: adminpw
+  MONGO_ROOT_USER: admin123
+  MONGO_URL: mongodb://u1:somepw@db:27017/testdb
+  MONGO_USER: u1
+  ORDER_SERVICE_HOST: order
+  ORDER_SERVICE_PORT: "8001"
+  PAYMENT_SERVICE_HOST: payment
+  PAYMENT_SERVICE_PORT: "8002"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: gateway-env
+  name: env

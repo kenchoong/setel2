@@ -2,6 +2,7 @@ version: "3"
 services:
   gateway:
     build: ./gateway
+    image: kenchoong012/setel:gateway
     restart: always
     hostname: gateway
     env_file:
@@ -13,6 +14,7 @@ services:
       - frontend
   order:
     build: ./order
+    image: kenchoong012/setel:order
     restart: always
     hostname: order
     env_file:
@@ -25,6 +27,7 @@ services:
       - db
   payment:
     build: ./payment
+    image: kenchoong012/setel:payment
     restart: always
     hostname: payment
     env_file:
@@ -34,6 +37,8 @@ services:
   db:
     image: "mongo:latest"
     restart: always
+    env_file:
+      - .env
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
