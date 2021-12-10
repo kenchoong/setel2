@@ -14,7 +14,7 @@ Only backend for this assessment, which is same like the previous endpoint, just
 
 > $ git clone https://github.com/kenchoong/setel2.git
 >
-> $ docker-compose up
+> $ docker-compose up --build 
 >
 > $ wait the container build
 >
