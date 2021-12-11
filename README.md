@@ -147,7 +147,7 @@ $ run command prompt as adminstrator
 // start minikube
 $ minikube start
 
-// here will open K8s dashboard in browser
+// here will open K8s dashboard in browser(optional, cause this will super lag)
 $ minikube dashboard
 
 ```
@@ -162,7 +162,7 @@ $ cd k8s-deployment
 $ kubectl create configmap mongo-initdb --from-file=create-user.sh
 
 // deploy all stuff into K8s
-$ kubectl apply -f backend-networkpolicy.yaml,db-claim0-persistentvolumeclaim.yaml,db-claim1-persistentvolumeclaim.yaml,db-pv0.yaml,db-pv1.yaml,db-deployment.yaml,db-service.yaml,env-configmap.yaml,frontend-networkpolicy.yaml,gateway-deployment.yaml,gateway-service.yaml,order-deployment.yaml,order-service.yaml,payment-deployment.yaml,payment-service.yaml
+$ kubectl apply -f backend-networkpolicy.yaml,db-pvc0.yaml,db-pvc1.yaml,db-pv0.yaml,db-pv1.yaml,db-deployment.yaml,db-service.yaml,env-configmap.yaml,frontend-networkpolicy.yaml,gateway-deployment.yaml,gateway-service.yaml,order-deployment.yaml,order-service.yaml,payment-deployment.yaml,payment-service.yaml
 
 ```
 
@@ -179,7 +179,7 @@ Now you can access the Swagger api documentation at [localhost:7000/api](http://
 
 This is for local testing. But too many files, too many repeative inside k8s file, so we need a Helm chart
 
-Delete all the stuff
+Delete all the stuff (if needed)
 
 ```
 $ kubectl delete --all deployment --namespace=default
