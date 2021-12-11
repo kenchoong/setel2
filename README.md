@@ -14,7 +14,7 @@ Only backend for this assessment, which is same like the previous endpoint, just
 
 > $ git clone https://github.com/kenchoong/setel2.git
 >
-> $ docker-compose up
+> $ docker-compose up --build
 >
 > $ wait the container build
 >
@@ -124,7 +124,15 @@ Successfully created ecs context "MyContextName "
 $  docker compose up
 ```
 
+<<<<<<< HEAD
+
 ## Deploy container to Kubernetes cluster using kubectl
+
+=======
+
+## Deploy container to Kubernetes cluster(locally)
+
+> > > > > > > faf1f7f70b1604608e2caff24b48682a0568a8c9
 
 Prerequisite: Kubernetes, Kubectl, Minikube, Docker hub
 
@@ -189,7 +197,7 @@ $ kubectl delete configmap mongo-initdb --namespace=default
 $ kubectl delete --all pv --namespace=default
 ```
 
-Now you can access the Swagger api documentation at [localhost:7000/api](http://localhost:7000/api), so with this can be deploy to any machine in the cloud using all spec files inside k8s-deployment folder. This is not ideal, but enough for local testing. Will update for a cloud solution, using AWS EKS later.
+Now you can access the Swagger api documentation at [localhost:7000/api](http://localhost:7000/api), so with this can be deploy to any machine in the cloud using all spec files inside k8s-deployment folder. This is for local testing. But to many files, too many repeative in k8s file, so we need a Helm chart
 
 ## Deploy container to Kubernetes cluster using Helm Chart
 

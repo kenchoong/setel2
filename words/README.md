@@ -21,7 +21,11 @@ After done this assessment, I noticed a few advantages of this architeture:
 
 4. Using this team is definitely easier to work together, cause everyone also work on separate function for separate folder.
 
-Disadvantage I havent notice yet.
+Disadvantage I havent notice yet.(Now I add in some of my opion): 
+
+1. Networking when deploy to K8s. Each microservice will have their own IP inside their container. When the app grows, the networking will quickly become a problem. This I will explore on this more. 
+
+2. Need a good computer to work on this.(Only my own problem) - So when I run docker and kubernetes in a same computer, the  whole computer lag until moving mouse also need 5 seconds. I am pulling my hair off because of this. 🤣😂
 
 CD/CI stuff
 CD/CI definitely very important in this type architeture. If everything run on my local pc, I will definitely get mad 😂. I can do this. Therefore I present in this assessment as well. I try to give as clear as possible commit message in this assessment. If your team is using some tools like Commitizen, I can follow as well. And also the pipeline to build the docker images, with tags and so on, this I aware that. But I just stuff here
