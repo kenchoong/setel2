@@ -168,10 +168,16 @@ $ kubectl apply -f backend-networkpolicy.yaml,db-claim0-persistentvolumeclaim.ya
 
 Wait for Pod and Deployment ready in Minikube. Now all service is only 1 replica, change it in the respective service file if needed.
 
+Expose port run this
+
 ```
 // expose gateway k8s service to localhost:7000
 $ kubectl port-forward svc/gateway 7000:7000
 ```
+
+Now you can access the Swagger api documentation at [localhost:7000/api](http://localhost:7000/api), so with this can be deploy to any machine in the cloud using all spec files inside k8s-deployment folder.
+
+This is for local testing. But too many files, too many repeative inside k8s file, so we need a Helm chart
 
 Delete all the stuff
 
@@ -188,8 +194,6 @@ $ kubectl delete configmap mongo-initdb --namespace=default
 
 $ kubectl delete --all pv --namespace=default
 ```
-
-Now you can access the Swagger api documentation at [localhost:7000/api](http://localhost:7000/api), so with this can be deploy to any machine in the cloud using all spec files inside k8s-deployment folder. This is for local testing. But to many files, too many repeative in k8s file, so we need a Helm chart
 
 ## Deploy container to Kubernetes cluster using Helm Chart
 
