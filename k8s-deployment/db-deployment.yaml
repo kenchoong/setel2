@@ -27,12 +27,32 @@ spec:
     spec:
       containers:
         - env:
-            - name: MONGO_INITDB_DATABASE
-            - name: MONGO_INITDB_ROOT_PASSWORD
             - name: MONGO_INITDB_ROOT_USERNAME
-            - name: MONGO_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_ROOT_USER
+                  name: env
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_ROOT_PASSWORD
+                  name: env
             - name: MONGO_USER
-          image: mongo:latest
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_USER
+                  name: env
+            - name: MONGO_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_PASSWORD
+                  name: env
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_MY_DATABASE
+                  name: env
+          image: mongo:5.0.5
           name: db
           ports:
             - containerPort: 27017
@@ -43,7 +63,7 @@ spec:
             - mountPath: /data/db
               name: db-claim1
             - mountPath: /docker-entrypoint-initdb.d/
-              name: db-claim2
+              name: mongo-initdb
       restartPolicy: Always
       volumes:
         - name: db-claim0
@@ -52,7 +72,7 @@ spec:
         - name: db-claim1
           persistentVolumeClaim:
             claimName: db-claim1
-        - name: db-claim2
-          persistentVolumeClaim:
-            claimName: db-claim2
+        - name: mongo-initdb
+          configMap:
+            name: mongo-initdb
 status: {}

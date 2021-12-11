@@ -124,7 +124,7 @@ Successfully created ecs context "MyContextName "
 $  docker compose up
 ```
 
-## Deploy container to Kubernetes cluster
+## Deploy container to Kubernetes cluster using kubectl
 
 Prerequisite: Kubernetes, Kubectl, Minikube, Docker hub
 
@@ -135,7 +135,7 @@ $ docker login
 
 $ docker-compose build && docker-compose push
 
-All container will in this repo
+All container already in this docker repo
 https://hub.docker.com/repository/docker/kenchoong012/setel
 ```
 
@@ -158,8 +158,11 @@ Deploy all the stuff into K8s
 
 $ cd k8s-deployment
 
+// Create a ConfigMap for Mongodb(Initialize a user to be used by the order service)
+$ kubectl create configmap mongo-initdb --from-file=create-user.sh
+
 // deploy all stuff into K8s
-$ kubectl apply -f backend-networkpolicy.yaml,db-claim0-persistentvolumeclaim.yaml,db-claim1-persistentvolumeclaim.yaml,db-claim2-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,env-configmap.yaml,frontend-networkpolicy.yaml,gateway-deployment.yaml,gateway-service.yaml,order-deployment.yaml,payment-deployment.yaml
+$ kubectl apply -f backend-networkpolicy.yaml,db-claim0-persistentvolumeclaim.yaml,db-claim1-persistentvolumeclaim.yaml,db-pv0.yaml,db-pv1.yaml,db-deployment.yaml,db-service.yaml,env-configmap.yaml,frontend-networkpolicy.yaml,gateway-deployment.yaml,gateway-service.yaml,order-deployment.yaml,order-service.yaml,payment-deployment.yaml,payment-service.yaml
 
 ```
 
@@ -170,4 +173,24 @@ Wait for Pod and Deployment ready in Minikube. Now all service is only 1 replica
 $ kubectl port-forward svc/gateway 7000:7000
 ```
 
+Delete all the stuff
+
+```
+$ kubectl delete --all deployment --namespace=default
+
+$ kubectl delete --all pvc --namespace=default
+
+$ kubectl delete --all service --namespace=default
+
+$ kubectl delete --all pods --namespace=default
+
+$ kubectl delete configmap mongo-initdb --namespace=default
+
+$ kubectl delete --all pv --namespace=default
+```
+
 Now you can access the Swagger api documentation at [localhost:7000/api](http://localhost:7000/api), so with this can be deploy to any machine in the cloud using all spec files inside k8s-deployment folder. This is not ideal, but enough for local testing. Will update for a cloud solution, using AWS EKS later.
+
+## Deploy container to Kubernetes cluster using Helm Chart
+
+Coming soon.
