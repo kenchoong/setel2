@@ -289,8 +289,6 @@ Some notes I like to drop down here as well (for myself)
 
 **My 2 cents**
 
-Basically this is Serverless but all the work you need to do it yourself. haha. This will save a lot of money in long term, but also require a lot of work and a lot of teamates. For big company invest for very long term, this will worth it. For me, broke and 1 man team right now, so serverless 😂😊
-
-By the way, this archeriture is not very hard to do, can say this is super fun to work with. But unfortunately I have to stop for now for this repo. Anyway, learned A TON and I fully prepared myself. Wish to go in a "enginering playground" which have a good product and good culture to work on this, one day. 
+Basically this is Serverless but all the work you need to do it yourself. 😂😊 By the way, this archeriture super fun to work with. Unfortunately I have to stop for now for this repo. Anyway, learned A TON and I fully prepared myself. Wanna to go in a "enginering playground" which have a good product and good culture to work on this, one day. 
 
 Whoever that read this, thanks for reading, I wish you well. Bye for now. ✌😂😊
