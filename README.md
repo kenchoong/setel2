@@ -266,11 +266,15 @@ Right now, all the resource will run inside 1 node, 1 server with the k8s yaml f
 In real world, the workflow will be (I just imagine):
 
 1. Each microservice will build as docker image using CD/CI pipeline.
-2. After a pull request is approved, it will auto run unit test, e2e test
+2. It `git push` in a branch, it will auto run unit test, e2e test
 3. If test not pass, refactor it again.
-4. All test passed, then will build a docker image with tag(etc: order:1234), push it into AWS ECR(or any repo service)
-5. For existing service, K8s deployment will auto pull the latest image.
-6. For new service, the CodeDeploy command will run `helm install -f order-service.yaml order ./app` to deploy into the k8s cluster.
+4. All test passed, submit a pull request. 
+5. Once a pull request is submitted, then will build a docker image with tag(etc: order:1234), push it into AWS ECR(or any container repo service)
+6. Quality controller will test the app using that image, everything no problem, approve the PR and merge the pull request into main branch. 
+7. Once the PR is merged, will trigger a build again
+8. Finish build CodeDeploy command will run something like `helm install -f order-service.yaml order ./app` to deploy the container into the k8s cluster.
+9. 
+Just try to imagine. Not sure is it true of not. 
 
 Some notes I like to drop down here as well (for myself)
 
