@@ -261,7 +261,7 @@ In this repo, I have shown 3 deployment method as below:
 - using Kubectl with Kompose
 - using Helm Chart
 
-Right now, all the resource will run inside 1 node, 1 server with the k8s yaml file or helm chart. All the stuff like Pods, Persistent Volume all sit virtually inside 1 computer. So this only demonstrate my little ability.
+Right now, all the resource will run inside 1 node, 1 server with the k8s yaml file or helm chart. All the stuff like Pods, Persistent Volume all sit virtually inside 1 computer. So this only to demonstrate my ability.
 
 In real world, the workflow will be (I just imagine):
 
