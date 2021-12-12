@@ -1,0 +1,64 @@
+app:
+  name: app
+  restartPolicy: Always
+  replicaCount: 1
+  config:
+    name: env
+    env:
+      - key: envkey
+        value: envvalue
+      # - key: MONGO_INITDB_ROOT_USERNAME
+      #   value: admin123
+      # - key: MONGO_INITDB_ROOT_PASSWORD
+      #   value: adminpw
+      # - key: MONGO_USER
+      #   value: u1
+      # - key: MONGO_PASSWORD
+      #   value: admin123
+      # - key: MONGO_INITDB_DATABASE
+      #   value: testdb
+      # - key: MONGO_URL
+      #   value: mongodb://u1:somepw@db:27017/testdb
+      # - key: ORDER_SERVICE_HOST
+      #   value: order
+      # - key: ORDER_SERVICE_PORT
+      #   value: "8001"
+      # - key: PAYMENT_SERVICE_HOST
+      #   value: payment
+      # - key: PAYMENT_SERVICE_PORT
+      #   value: "8002"
+      # - key: API_PORT
+      #   value: "7000"
+  container:
+    env:
+      - key: envkey
+        name: envname
+      # - key: MONGO_INITDB_ROOT_USERNAME
+      #   name: env
+      # - key: MONGO_INITDB_ROOT_PASSWORD
+      #   name: env
+      # - key: MONGO_USER
+      #   name: env
+      # - key: MONGO_PASSWORD
+      #   name: env
+      # - key: MONGO_INITDB_DATABASE
+      #   name: env
+      # - key: MONGO_URL
+      #   name: env
+      # - key: ORDER_SERVICE_HOST
+      #   name: env
+      # - key: ORDER_SERVICE_PORT
+      #   name: env
+      # - key: PAYMENT_SERVICE_HOST
+      #   name: env
+      # - key: PAYMENT_SERVICE_PORT
+      #   name: env
+      # - key: API_PORT
+      #   name: env
+    name: container-name
+    image: the-image-will-add-here
+    imagePullPolicy: IfNotPresent
+    port: 8080
+  service:
+    name: service-name
+    port: 8080

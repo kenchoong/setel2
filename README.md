@@ -126,7 +126,17 @@ $  docker compose up
 
 ## Deploy container to Kubernetes cluster using kubectl(testing locally)
 
-Prerequisite: Kubernetes, Kubectl, Minikube, Docker hub
+Prerequisite: Kubernetes, Kubectl, Minikube, Docker hub, Kompose
+
+Convert docker-compose into K8s deployment files (Done, can skip)
+
+```
+$ choco install kubernetes-kompose
+
+// run this in docker-compose.yaml directory
+$ kompose convert
+
+```
 
 Push all container to docker hub
 
@@ -190,11 +200,90 @@ $ kubectl delete --all service --namespace=default
 
 $ kubectl delete --all pods --namespace=default
 
-$ kubectl delete configmap mongo-initdb --namespace=default
+$ kubectl delete --all configmap  --namespace=default
 
 $ kubectl delete --all pv --namespace=default
 ```
 
 ## Deploy container to Kubernetes cluster using Helm Chart
 
-Coming soon.
+Prerequisite: Kubernetes, Helm, Kubectl, Minikube, Docker hub
+
+```
+
+$ run command prompt as adminstrator
+
+// start minikube
+$ minikube start
+
+$ cd helm
+
+// Create a ConfigMap for Mongodb(Initialize a user to be used by the order service)
+$ kubectl create configmap mongo-initdb --from-file=create-user.sh
+
+$ helm install -f mongo-db.yaml mongodb ./db
+
+$ helm install -f order-service.yaml order ./app
+
+$ helm install -f payment-service.yaml payment ./app
+
+$ helm install -f gateway-service.yaml gateway ./app
+
+// expose the port to service
+$ kubectl port-forward svc/gateway 7000:7000
+or
+// expose the port to pods
+$ kubectl get pods
+$ kubectl port-forward gateway-<some-hash> 7000:7000
+
+```
+
+Now you can access the API documentation at [localhost:7000/api](http://localhost:7000/api) and all the resource will be deployed in K8s cluster.
+
+```
+// check all the resource in dashboard
+$ minikube dashboard
+
+// upgrade AKA update the files/resource then redeploy again
+$ helm upgrade [RELEASE NAME] -f [Release_file.yaml] [CHART FOLDER]
+```
+
+## Summary
+
+[Previous repo, using serverless](https://github.com/kenchoong/Setel-assessment)
+
+In this repo, I have shown 3 deployment method as below:
+
+- using AWS ECS - Direct post the docker into cloud, then host
+- using Kubectl with Kompose
+- using Helm Chart
+
+Right now, all the resource will run inside 1 node, 1 server with the k8s yaml file or helm chart. All the stuff like Pods, Persistent Volume all sit virtually inside 1 computer. So this only demonstrate my little ability.
+
+In real world, the workflow will be (I just imagine):
+
+1. Each microservice will build as docker image using CD/CI pipeline.
+2. After a pull request is approved, it will auto run unit test, e2e test
+3. If test not pass, refactor it again.
+4. All test passed, then will build a docker image with tag(etc: order:1234), push it into AWS ECR(or any repo service)
+5. For existing service, K8s deployment will auto pull the latest image.
+6. For new service, the CodeDeploy command will run `helm install -f order-service.yaml order ./app` to deploy into the k8s cluster.
+
+Some notes I like to drop down here (for myself)
+
+- 1 deployments will have 1 to 10 replicas (AKA pods).
+- Each pods will run by a individual EC2.
+- Traffic will direct by Load balancer (Nginx).
+- It will autoscalling, for instance, no traffic come in only have 1 or 0 pods. A lot of traffic will trigger it become 10 pods.
+- Each persistent volumes like DB, file storages etc will be use Elastic block, to mount the data persistently.
+- Then this 1 cluster node will handle by 1 minikube/Prometheus/other (AKA control plane/dashboard) to manage the resources visually or see error logs etc.
+- Each microservices will communicate with each other using RabbitMQ, Apache Kafka, Redis etc to do the Pub/Sub
+- With this, it just Planet scale. Each team member can developed on 1 individual service without effecting other service(AKA If the thing works, dont touch it😂). So the product can iterate fast.
+
+**My 2 cents**
+
+Basically this is Serverless but all the work you need to do it yourself. haha. This will save a lot of money in long term, but also require a lot of work and a lot of teamates. For big company invest for very long term, this will worth it. For me, broke and 1 man team right now, so serverless 😂😊
+
+By the way, this archeriture is not very hard to do, can say this is super fun to work with. But unfortunately I have to stop for now for this repo. Anyway, learned A TON and I fully prepared myself. I will go in a "enginering playground" which have a good product and good culture to work on this.
+
+Whoever that read this, thanks for reading. Bye for now. ✌😂😊

@@ -1,0 +1,38 @@
+app:
+  name: gateway
+
+  replicaCount: 1
+
+  config:
+    name: gateway
+    env:
+      - key: ORDER_SERVICE_HOST
+        value: order
+      - key: ORDER_SERVICE_PORT
+        value: "8001"
+      - key: PAYMENT_SERVICE_HOST
+        value: payment
+      - key: PAYMENT_SERVICE_PORT
+        value: "8002"
+      - key: API_PORT
+        value: "7000"
+
+  container:
+    name: gateway
+    image: kenchoong012/setel:gateway
+    port: 7000
+    env:
+      - key: ORDER_SERVICE_HOST
+        name: gateway
+      - key: ORDER_SERVICE_PORT
+        name: gateway
+      - key: PAYMENT_SERVICE_HOST
+        name: gateway
+      - key: PAYMENT_SERVICE_PORT
+        name: gateway
+      - key: API_PORT
+        name: gateway
+
+  service:
+    name: "7000"
+    port: 7000

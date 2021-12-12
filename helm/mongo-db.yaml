@@ -1,0 +1,61 @@
+mongo:
+  name: mongo-db
+
+
+  config:
+    name: mongo-db-config
+    data:
+      - key: MONGO_INITDB_ROOT_USERNAME
+        value: admin123
+      - key: MONGO_INITDB_ROOT_PASSWORD
+        value: adminpw
+      - key: MONGO_USER
+        value: u1
+      - key: MONGO_PASSWORD
+        value: admin123
+      - key: MONGO_INITDB_DATABASE
+        value: testdb
+      - key: MONGO_URL
+        value: mongodb://u1:somepw@db:27017/testdb
+
+
+  container:
+    env:
+      - key: MONGO_INITDB_ROOT_USERNAME
+        name: mongo-db-config
+      - key: MONGO_INITDB_ROOT_PASSWORD
+        name: mongo-db-config
+      - key: MONGO_USER
+        name: mongo-db-config
+      - key: MONGO_PASSWORD
+        name: mongo-db-config
+      - key: MONGO_INITDB_DATABASE
+        name: mongo-db-config
+      - key: MONGO_URL
+        name: mongo-db-config
+
+
+  volumeMounts:
+    - key: db-claim0 
+      mountPath: /home/mongodb
+    - key: db-claim1
+      mountPath: /data/db
+    - key: mongo-initdb
+      mountPath: /docker-entrypoint-initdb.d/
+  # volumes:
+  #   - name: db-claim0
+  #     kind: PersistentVolumeClaim
+  #     pvc:
+  #       name: db-claim0
+  #       storage: 3Gi
+  #       accessMode: ReadWriteOnce
+  #   - name: db-claim0
+  #     kind: PersistentVolumeClaim
+  #     pvc:
+  #       name: db-claim1
+  #       storage: 3Gi
+  #       accessMode: ReadWriteOnce
+  #   - name: mongo-initdb
+  #     kind: ConfigMap
+  #     configMap:
+  #       name: mongo-initdb

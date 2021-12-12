@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.mongo.name }}
+  labels:
+    app: {{ .Values.mongo.name }}
+spec:
+  replicas: {{ .Values.mongo.replicaNumber }}
+  selector:
+    matchLabels:
+      db: {{ .Values.mongo.name }}
+  strategy:
+    type: {{ .Values.mongo.strategy }}
+  template:
+    metadata:
+      labels:
+        db: {{ .Values.mongo.name }}
+    spec:
+      containers:
+        - name: {{ .Values.mongo.name }}
+          image: {{ .Values.mongo.container.image }}
+          env:
+            {{- range $k, $v := .Values.mongo.container.env}}
+            - name: {{ $v.key }}
+              valueFrom:
+                configMapKeyRef:
+                  key: {{ $v.key }}
+                  name: {{ $v.name }}
+            {{- end}}
+          ports:
+            - containerPort: {{ .Values.mongo.container.port }}
+          volumeMounts: 
+            {{- range $key, $value := .Values.mongo.volumeMounts }}
+              - mountPath: {{ $value.mountPath }}
+                name: {{ $value.key }}
+                
+            {{- end }}
+      restartPolicy: {{ .Values.mongo.restartPolicy }}
+      volumes: 
+        - name: db-claim0
+          persistentVolumeClaim:
+            claimName: db-claim0
+        - name: db-claim1
+          persistentVolumeClaim: 
+            claimName: db-claim1
+        - name: mongo-initdb
+          configMap:
+            name: mongo-initdb
+status: {}

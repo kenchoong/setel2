@@ -1,0 +1,28 @@
+{{- range $key, $value := .Values.mongo.pv }}
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ $value.name }}
+  labels:
+    type: local
+spec:
+  volumeMode: Filesystem
+  storageClassName: local
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    name:  {{ $value.claimName }}
+  local:
+    path:  {{ $value.path }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - minikube
+{{- end }}

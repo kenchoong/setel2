@@ -1,0 +1,65 @@
+replicaNumber: 1
+
+mongo:
+  name: db
+  strategy: Recreate
+  service:
+    portName: "27017"
+    port: 27017
+    targetPort: 27017
+
+  pvc: 
+    - name: db-claim0
+      accessMode: ReadWriteOnce
+      storage: 3Gi
+    - name: db-claim1
+      accessMode: ReadWriteOnce
+      storage: 3Gi
+  
+  pv: 
+    - name: db-pv0
+      path: /home/mongodb
+      claimName: db-claim0
+    - name: db-pv1
+      path: /data/db-files
+      claimName: db-claim1
+
+  config:
+    name: db-config-name
+    data:
+      - key: envkey
+        name: envname
+  volumeMounts:
+    - mountPath: volumeMountPath 
+      key: volumeName
+  container:
+    image: mongo:5.0.5
+    port: 27017
+    env:
+      - key: envkey
+        value: envvalue
+
+  # volumes:
+    
+  #   - name: mongo-initdb
+  #     kind: ConfigMap
+  #     configMap:
+  #       name: mongo-initdb
+  #   - name: db-claim0
+  #     kind: PersistentVolumeClaim
+  #     pvc: 
+  #       name: db-claim0
+  #       accessMode: ReadWriteOnce
+  #       storage: 3Gi
+  #   - name: db-claim1
+  #     kind: PersistentVolumeClaim
+  #     pvc: 
+  #       name: db-claim1
+  #       accessMode: ReadWriteOnce
+  #       storage: 3Gi
+
+
+  
+  
+    
+  

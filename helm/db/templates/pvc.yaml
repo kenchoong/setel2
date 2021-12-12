@@ -1,0 +1,17 @@
+{{- range $key, $value := .Values.mongo.pvc }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+
+metadata:
+  labels:
+    app: {{ $value.name }}
+  name: {{ $value.name }}
+
+spec:
+  accessModes: 
+    - {{ $value.accessMode }}
+  resources:
+    requests:
+      storage: {{ $value.storage }}
+{{- end }}

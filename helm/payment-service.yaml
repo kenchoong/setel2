@@ -1,0 +1,38 @@
+app:
+  name: payment
+
+  replicaCount: 1
+
+  config:
+    name: payment 
+    env:
+      - key: ORDER_SERVICE_HOST
+        value: order
+      - key: ORDER_SERVICE_PORT
+        value: "8001"
+      - key: PAYMENT_SERVICE_HOST
+        value: payment
+      - key: PAYMENT_SERVICE_PORT
+        value: "8002"
+      - key: API_PORT
+        value: "7000"
+
+  container:
+    name: payment
+    image: kenchoong012/setel:payment
+    port: 8002
+    env:
+      - key: ORDER_SERVICE_HOST
+        name: payment
+      - key: ORDER_SERVICE_PORT
+        name: payment
+      - key: PAYMENT_SERVICE_HOST
+        name: payment
+      - key: PAYMENT_SERVICE_PORT
+        name: payment
+      - key: API_PORT
+        name: payment
+
+  service:
+    name: "8002"
+    port: 8002

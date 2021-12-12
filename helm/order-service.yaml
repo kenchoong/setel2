@@ -1,0 +1,43 @@
+app:
+  name: order
+
+  replicaCount: 1
+
+  config:
+    name: order 
+    env:
+      - key: ORDER_SERVICE_HOST
+        value: order
+      - key: ORDER_SERVICE_PORT
+        value: "8001"
+      - key: PAYMENT_SERVICE_HOST
+        value: payment
+      - key: PAYMENT_SERVICE_PORT
+        value: "8002"
+      - key: API_PORT
+        value: "7000"
+      - key: MONGO_URL
+        value: mongodb://u1:somepw@db:27017/testdb
+
+
+  container:
+    name: order
+    image: kenchoong012/setel:order
+    port: 8001
+    env:
+      - key: ORDER_SERVICE_HOST
+        name: order
+      - key: ORDER_SERVICE_PORT
+        name: order
+      - key: PAYMENT_SERVICE_HOST
+        name: order
+      - key: PAYMENT_SERVICE_PORT
+        name: order
+      - key: API_PORT
+        name: order
+      - key: MONGO_URL
+        name: order
+
+  service:
+    name: "8001"
+    port: 8001
