@@ -273,6 +273,7 @@ In real world, the workflow will be (I just imagine):
 6. Quality controller will test the app using that image, everything no problem, approve the PR and merge the pull request into main branch. 
 7. Once the PR is merged, will trigger a build again
 8. Finish build CodeDeploy command will run something like `helm install -f order-service.yaml order ./app` to deploy the container into the k8s cluster.
+
 Just try to imagine. Not sure is it true of not. 
 
 Some notes I like to drop down here as well (for myself)
