@@ -240,6 +240,9 @@ $ kubectl port-forward gateway-<some-hash> 7000:7000
 
 Now you can access the API documentation at [localhost:7000/api](http://localhost:7000/api) and all the resource will be deployed in K8s cluster.
 
+> Note: You may be will experience a error when you hit `POST /orders` in Swagger, due to "I dont know what is the reason", the `Order Service` just cant connect with
+> `mongodb` service, may be you can give me a hint. I jam all this out in a very short period of time(Not an excuse), and right now I really dont have time to solve this, therefore I left it here first. This for demostration purpose, I hope it enough.
+
 ```
 // check all the resource in dashboard
 $ minikube dashboard
@@ -269,7 +272,7 @@ In real world, the workflow will be (I just imagine):
 5. For existing service, K8s deployment will auto pull the latest image.
 6. For new service, the CodeDeploy command will run `helm install -f order-service.yaml order ./app` to deploy into the k8s cluster.
 
-Some notes I like to drop down here (for myself)
+Some notes I like to drop down here as well (for myself)
 
 - 1 deployments will have 1 to 10 replicas (AKA pods).
 - Each pods will run by a individual EC2.
