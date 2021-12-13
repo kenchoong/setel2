@@ -253,18 +253,7 @@ In this repo, I have shown 3 deployment method as below:
 
 Right now, all the resource will run inside 1 node, 1 server with the k8s yaml file or helm chart. All the stuff like Pods, Persistent Volume all sit virtually inside 1 computer. So this only to demonstrate my ability.
 
-In real world, the workflow will be:
-
-1. Each microservice will build as docker image using CD/CI pipeline.
-2. It `git push` in a branch, it will auto run unit test, e2e test
-3. If test not pass, refactor it again.
-4. All test passed, submit a pull request. 
-5. Once a pull request is submitted, then will build a docker image with tag(etc: order:1234), push it into AWS ECR(or any container repo service)
-6. Quality controller will test the app using that image, everything no problem, approve the PR and merge the pull request into main branch. 
-7. Once the PR is merged, will trigger a build again
-8. Finish build CodeDeploy/Jenkins will run something like `helm install -f order-service.yaml order ./app` to deploy the container into the k8s cluster.
-
-Some notes I like to drop down here as well (for myself)
+Some notes I like to drop down here as well(for myself)
 
 - 1 deployments will have 1 to 10 replicas (AKA pods).
 - Each pods will run by a individual EC2.
