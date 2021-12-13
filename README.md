@@ -231,8 +231,7 @@ $ kubectl port-forward gateway-<some-hash> 7000:7000
 
 Now you can access the API documentation at [localhost:7000/api](http://localhost:7000/api) and all the resource will be deployed in K8s cluster.
 
-> Note: You may be will experience a error when you hit `POST /orders` in Swagger, due to "I dont know what is the reason", the `Order Service` just cant connect with
-> `mongodb` service, and Mongodb just wont initialize the admin database when 1st created, may be you can give me a hint. I jam all this out in a very short period of time(Not an excuse), and right now I really dont have time to solve this, therefore I left it here first. This for demostration purpose, I hope it enough.
+> Note: You may be will experience a error when you hit `POST /orders` in Swagger, due to "I dont know what is the reason", the `MongoDB service` just not initialize the Init database and create a new user inside it when the pods, only happened when using Helm, may be you can give me a hint,. I jam all this out in a very short period of time(Not an excuse), and right now I really dont have time to solve this, therefore I left it here first. This for demostration purpose, I hope it enough.
 
 ```
 // check all the resource in dashboard
@@ -278,6 +277,6 @@ Some notes I like to drop down here as well (for myself)
 
 **My 2 cents**
 
-Basically this is Serverless but all the work you need to do it yourself. 😂😊 By the way, this archeriture super fun to work with. Unfortunately I have to stop for now for this repo. Anyway, learned A TON and prepared myself. Hopefully will go in a enginering playground which have a good product and good culture to work on this, one day. 
+Basically this is Serverless but all the work you need to do it yourself. 😂😊 By the way, this archeriture super fun to work with. Thats a lot more to explore, unfortunately I have to stop for now for this repo. Anyway, learned A TON and prepared myself. Hopefully will go in a enginering playground which have a good product and good culture to work on this, one day. 
 
 Whoever that read this, thanks for reading, I wish you well. Bye for now. ✌😂😊
