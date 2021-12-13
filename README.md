@@ -124,19 +124,10 @@ Successfully created ecs context "MyContextName "
 $  docker compose up
 ```
 
-## Deploy container to Kubernetes cluster using kubectl and kompose(testing locally)
+## Deploy container to Kubernetes cluster using kubectl
 
 Prerequisite: Kubernetes, Kubectl, Minikube, Docker hub, Kompose
 
-Convert docker-compose into K8s deployment files (Done, can skip)
-
-```
-$ choco install kubernetes-kompose
-
-// run this in docker-compose.yaml directory
-$ kompose convert
-
-```
 
 Push all container to docker hub
 
@@ -263,7 +254,7 @@ In this repo, I have shown 3 deployment method as below:
 
 Right now, all the resource will run inside 1 node, 1 server with the k8s yaml file or helm chart. All the stuff like Pods, Persistent Volume all sit virtually inside 1 computer. So this only to demonstrate my ability.
 
-In real world, the workflow will be (I just imagine):
+In real world, the workflow will be:
 
 1. Each microservice will build as docker image using CD/CI pipeline.
 2. It `git push` in a branch, it will auto run unit test, e2e test
@@ -272,9 +263,7 @@ In real world, the workflow will be (I just imagine):
 5. Once a pull request is submitted, then will build a docker image with tag(etc: order:1234), push it into AWS ECR(or any container repo service)
 6. Quality controller will test the app using that image, everything no problem, approve the PR and merge the pull request into main branch. 
 7. Once the PR is merged, will trigger a build again
-8. Finish build CodeDeploy command will run something like `helm install -f order-service.yaml order ./app` to deploy the container into the k8s cluster.
-
-Just try to imagine. Not sure is it true of not. 
+8. Finish build CodeDeploy/Jenkins will run something like `helm install -f order-service.yaml order ./app` to deploy the container into the k8s cluster.
 
 Some notes I like to drop down here as well (for myself)
 
